@@ -1,0 +1,26 @@
+﻿@model Pizza
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex align-items-center">
+                <h1 class="mt-3 mb-3">Dettagli della pizza</h1>
+            </div>
+            <div class="img-fluid img-thumbnail">
+                <img src="@Model.Image">
+            </div>
+            <p>
+                <strong>Nome della pizza:</strong>
+                @Model.Name
+            </p>
+            <p>
+                <strong>Descrizione:</strong>
+                @Model.Description
+            </p>
+            <p>
+                <strong>Categoria:</strong>
+                @Model.Category.Name
+            </p>
+        </div>
+    </div>
+</div>
