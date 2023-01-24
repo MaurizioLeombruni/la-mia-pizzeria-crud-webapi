@@ -1,8 +1,4 @@
-﻿@{
-    Layout = null;
-}
-
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 
 <head>
@@ -22,40 +18,92 @@
 
     <div class="container">
         <h1 class="my-3 text-danger text-center">"This is truly one of the pizzerias of all time"</h1>
+        <div>
+            <input id="input_search" type="text" class="form-control" placeholder="Cerca pizza per nome"/>
+        </div>
 
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">Nome</th>
-                    <th scope="col">Descrizione</th>
-                    <th scope="col">Foto</th>
-                    <th scope="col">Prezzo</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Pizza di pizza</td>
-                    <td>Una deliziosa pizza al gusto di pizza</td>
-                    <td><img src="https://picsum.photos/200/?random=1" class="img-fluid img-thumbnail" alt="itsapizzadotjpeg"></td>
-                    <td>4,50€</td>
-                </tr>
-                <tr>
-                    <td>Pizza atirehgram</td>
-                    <td>Hai mai mangiato una pizza margherita al contrario? Ora puoi!</td>
-                    <td><img src="https://picsum.photos/200/?random=2" class="img-fluid img-thumbnail" alt="reversedpizza"></td>
-                    <td>0,54€</td>
-                </tr>
-                <tr>
-                    <td>Pizza COSTOSAH</td>
-                    <td>Un'ottima pizza in caso tu voglia regalarci dei soldi!</td>
-                    <td><img src="https://picsum.photos/200/?random=3" class="img-fluid img-thumbnail" alt="givememoneih"></td>
-                    <td>14,50€</td>
-                </tr>
-            </tbody>
-        </table>
+        <div id="js_empty" class="row text-center d-none">
+        <div class="col-12">
+            <h3>Non hai inserito alcun post</h3>
+        </div>
+        </div>
+
+
+        <div id="js_pizza_table" class="row my-3 text-center d-none">
+            <!-- </><table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Descrizione</th>
+                        <th scope="col">Foto</th>
+                        <th scope="col">Prezzo</th>
+                    </tr>
+                </thead>
+                <tbody id="js_pizza_container">
+
+                </tbody>
+            </table> -->
+
+           <div id="js_pizza_container"></div>
+        </div>
+
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 </body>
+
+@section Scripts {
+    <script type="text/javascript">
+        
+        document.getElementById('input_search').addEventListener('keyup', searchPizzas);
+
+        function searchPizzas(){
+            let searchString = document.getElementById('input_search').value;
+            loadList(searchString);
+        }
+
+        function loadList(searchString){
+
+            axios.get('/api/pizzeria', {
+                params: {
+                search: searchString }
+            }).then( (res) => {
+            
+                console.log('we got something');
+                console.log(res);
+
+                debugger;
+
+                if (res.data.length == 0){
+
+                    document.getElementById("js_empty").classList.remove('d-none');
+                    document.getElementById('js_pizza_table').classList.add('d-none');
+                }
+
+                else{
+
+                    console.log(res);
+
+                    document.getElementById("js_empty").classList.add('d-none');
+                    document.getElementById('js_pizza_table').classList.remove('d-none');
+
+                    document.getElementById('js_pizza_container').innerHTML = '';
+
+                    res.data.forEach(pizza => {
+
+                        console.log('pizza: ' + pizza.name);
+
+                        document.getElementById('js_pizza_container').innerHTML += "<p> " + pizza.name + " </p>";
+
+                    });
+                }
+
+
+            }).catch( (error) => { console.log(error); } );
+
+        }
+
+    </script>
+}
 
 </html>
