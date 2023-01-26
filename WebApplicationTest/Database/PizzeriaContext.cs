@@ -8,6 +8,8 @@ namespace WebApplicationTest.Database
         public DbSet<Pizza> Pizzas { get; set; }
         public DbSet<Category> Categories { get; set; }
 
+        public DbSet<Tag> Tags { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionBuilder)
         {
             optionBuilder.UseSqlServer("Data Source = localhost; Database = PizzeriaV1; " + "Integrated Security=True;TrustServerCertificate=True");

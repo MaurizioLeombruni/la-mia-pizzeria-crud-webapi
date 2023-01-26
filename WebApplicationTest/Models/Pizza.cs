@@ -26,6 +26,8 @@ namespace WebApplicationTest.Models
         public int CategoryId { get; set; }
         public Category? Category { get; set; }
 
+        public List<Tag>? Tags { get; set; }
+
         public Pizza()
         {
 
